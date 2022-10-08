@@ -5,6 +5,6 @@ import com.examl.androidtesk.data.model.ResponseModel
 
 interface MainRepository {
 
-    fun fetchTennisPlayers() : ResponseModel<ArrayList<PlayerModel>>
+    suspend fun fetchTennisPlayers() : ResponseModel<ArrayList<PlayerModel>>
 
 }

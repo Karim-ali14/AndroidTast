@@ -9,6 +9,6 @@ import retrofit2.http.GET
 interface ApiService {
 
     @GET(Constants.Routs.GET_TENNIS_PLAYER)
-    fun fetchTennisPlayers() :ResponseModel<ArrayList<PlayerModel>>
+    suspend fun fetchTennisPlayers() :ResponseModel<ArrayList<PlayerModel>>
 
 }

@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
 
         initAdapter()
 
@@ -42,7 +42,10 @@ class MainActivity : AppCompatActivity() {
     private fun handleGetPlayerRequest(resource: Resource<ArrayList<PlayerModel>>) {
         when(resource.status){
             Status.SUCCESS -> {
-                resource.data?.let { list -> playerAdapter.updateList(list) }
+                resource.data?.let { list ->
+                    binding.noContent = list.isEmpty()
+                    playerAdapter.updateList(list)
+                }
             }
         }
     }
