@@ -8,34 +8,64 @@
             type="com.examl.androidtesk.data.model.PlayerModel" />
     </data>
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        bind:cardCornerRadius="10dp"
+        bind:cardElevation="5dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="5dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/player_image"
-            bind:glideImageUrl="@{player.imgURL}"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:id="@+id/player_image"
+                bind:glideImageUrl="@{player.imgURL}"
+                android:scaleType="centerCrop"
+                bind:layout_constraintStart_toStartOf="parent"
+                bind:layout_constraintEnd_toEndOf="parent"
+                bind:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_launcher_background"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{player.name}"
-            android:id="@+id/player_name"
-            />
+            <TextView
+                android:id="@+id/player_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:paddingVertical="5dp"
+                android:text="@{player.name}"
+                android:textSize="20dp"
+                bind:layout_constraintEnd_toEndOf="parent"
+                bind:layout_constraintStart_toStartOf="parent"
+                bind:layout_constraintTop_toBottomOf="@id/player_image" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{player.city}"
-            android:id="@+id/player_city"
-            />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                bind:layout_constraintStart_toStartOf="parent"
+                bind:layout_constraintEnd_toEndOf="parent"
+                bind:layout_constraintTop_toBottomOf="@id/player_name"
+                bind:layout_constraintBottom_toBottomOf="parent"
+                android:paddingBottom="5dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{player.country  + ` , ` + player.city}"
+                    android:id="@+id/player_city"
+                    android:textStyle="italic"
+                    android:textSize="10dp"
+                    android:gravity="center_vertical"
+                    android:drawableStart="@drawable/ic_location"
+                    />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{player.country}"
-            android:id="@+id/player_country" />
-    </LinearLayout>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
 </layout>
