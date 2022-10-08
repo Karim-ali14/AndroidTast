@@ -1,19 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
+        <import type="android.view.View" />
 
+        <variable
+            name="mainViewModel"
+            type="com.examl.androidtesk.ui.viewmodel.MainViewModel" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <variable
+            name="noContent"
+            type="Boolean" />
+
+        <variable
+            name="playerAdapter"
+            type="com.examl.androidtesk.ui.adapter.PlayerAdapter" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            bind:isRefreshing="@{mainViewModel.isLoading}"
+            bind:onRefresh="@{() -> mainViewModel.fetchTennisPlayers()}">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/recycler"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:visibility="@{!noContent ? View.VISIBLE : View.GONE}"
+                    bind:recyclerAdapter="@{playerAdapter}"
+                    bind:isLinear="@{true}"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+<!--        <include-->
+<!--            android:id="@+id/no_content_layout"-->
+<!--            layout="@layout/layout_no_content"-->
+<!--            android:visibility="@{noContent &amp;&amp; (!mainViewModel.isLoading &amp;&amp; !mainViewModel.hasError) ? View.VISIBLE : View.GONE}"-->
+<!--            app:homeViewModel="@{mainViewModel}"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <include-->
+<!--            android:id="@+id/error_layout"-->
+<!--            layout="@layout/layout_error"-->
+<!--            android:visibility="@{mainViewModel.hasError ? View.VISIBLE : View.GONE }"-->
+<!--            app:homeViewModel="@{mainViewModel}"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
