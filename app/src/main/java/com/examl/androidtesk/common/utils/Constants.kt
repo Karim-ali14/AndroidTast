@@ -9,4 +9,8 @@ object Constants {
     object Routs {
         const val GET_TENNIS_PLAYER = "json_parsing.php"
     }
+
+    object Keys {
+        const val PLAYER_KAY = "PlayerKey"
+    }
 }

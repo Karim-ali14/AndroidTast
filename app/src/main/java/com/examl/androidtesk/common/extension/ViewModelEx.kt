@@ -4,13 +4,16 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
-fun <T> ViewModel.performNetworkOp(isNetworkConnected:Boolean,
+fun <T,B> ViewModel.performNetworkOp(isNetworkConnected:Boolean,
                                      networkCall : suspend () -> T,
                                      doOnMainThread : suspend (T)-> Unit,
+                                     localDataOperation : suspend () -> B,
+                                     doLocalOnMainThread : suspend (B?)-> Unit,
                                      onError : suspend (Exception?) -> Unit){
     viewModelScope.launch(Dispatchers.IO) {
         Log.d("isNetworkConnected",isNetworkConnected.toString())
@@ -21,10 +24,14 @@ fun <T> ViewModel.performNetworkOp(isNetworkConnected:Boolean,
                     doOnMainThread(data)
                 }
             }else{
-                //Todo GetFrom Local
+                val data = localDataOperation()
+                withContext(Dispatchers.Main) {
+                    doLocalOnMainThread(data)
+                }
             }
         }catch (e: Exception){
             onError(e)
         }
     }
+
 }
