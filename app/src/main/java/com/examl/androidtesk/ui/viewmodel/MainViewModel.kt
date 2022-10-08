@@ -11,6 +11,7 @@ import com.examl.androidtesk.data.model.ResponseModel
 import com.examl.androidtesk.data.repository.MainRepository
 import com.examl.androidtesk.di.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,14 +20,17 @@ class MainViewModel @Inject constructor(
     val networkHelper: NetworkHelper
 ): ViewModel() {
 
-    private var _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> get() = _isLoading
+    private var _isLoading = MutableStateFlow<Boolean>(true)
+    val isLoading = _isLoading
 
-    private var _hasError = MutableLiveData<Boolean>()
-    val hasError: LiveData<Boolean> get() = _hasError
+    private var _hasData = MutableStateFlow<Boolean>(true)
+    val hasData: MutableStateFlow<Boolean> get() = _hasData
 
-    private var _contentList = MutableLiveData<Resource<ArrayList<PlayerModel>>>()
-    val contentList: LiveData<Resource<ArrayList<PlayerModel>>> get() = _contentList
+    private var _hasError = MutableStateFlow<Boolean>(false)
+    val hasError: MutableStateFlow<Boolean> get() = _hasError
+
+    private var _contentList = MutableStateFlow<Resource<ArrayList<PlayerModel>>>(Resource.loading(null))
+    val contentList: MutableStateFlow<Resource<ArrayList<PlayerModel>>> get() = _contentList
 
 
     init {
@@ -34,25 +38,26 @@ class MainViewModel @Inject constructor(
     }
 
     fun fetchTennisPlayers(){
-        _isLoading.postValue(true)
 
         performNetworkOp(
             isNetworkConnected = networkHelper.isNetworkConnected(),
             networkCall =  {
-                Log.d("networkCall","networkCall")
+                _isLoading.emit(true)
                 mainRepository.fetchTennisPlayers()
             },
             doOnMainThread = {
-                Log.d("networkCall","networkCall ${it.status}")
-                _isLoading.postValue(false)
+                Log.d("doOnMainThread","doOnMainThread")
+                _isLoading.emit(false)
                 if (it.status){
-                    _contentList.postValue(Resource.success(it.data))
+                    hasData.emit(true)
+                    _contentList.emit(Resource.success(it.data))
                 }else{
-                    _contentList.value = Resource.error(it.errors?.first()?:it.message,it.data)
+                    _contentList.emit(Resource.error(it.errors?.first()?:it.message,it.data))
                 }
             } ,
             onError = {
-                _hasError.postValue(true)
+                _isLoading.emit(false)
+                _hasError.emit(true)
             }
         )
     }

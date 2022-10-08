@@ -11,7 +11,7 @@ import java.lang.Exception
 fun <T> ViewModel.performNetworkOp(isNetworkConnected:Boolean,
                                      networkCall : suspend () -> T,
                                      doOnMainThread : suspend (T)-> Unit,
-                                     onError : (Exception?) -> Unit){
+                                     onError : suspend (Exception?) -> Unit){
     viewModelScope.launch(Dispatchers.IO) {
         Log.d("isNetworkConnected",isNetworkConnected.toString())
         try {

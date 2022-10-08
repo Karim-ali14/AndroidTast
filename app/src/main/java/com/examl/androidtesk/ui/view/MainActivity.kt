@@ -2,6 +2,7 @@ package com.examl.androidtesk.ui.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import com.examl.androidtesk.R
 import com.examl.androidtesk.common.binder.viewBinding
@@ -12,6 +13,11 @@ import com.examl.androidtesk.databinding.ActivityMainBinding
 import com.examl.androidtesk.ui.adapter.PlayerAdapter
 import com.examl.androidtesk.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -30,25 +36,8 @@ class MainActivity : AppCompatActivity() {
 
         bindData()
 
-        setupObserver()
     }
 
-    private fun setupObserver() {
-        mainViewModel.contentList.observe(this){
-            handleGetPlayerRequest(it)
-        }
-    }
-
-    private fun handleGetPlayerRequest(resource: Resource<ArrayList<PlayerModel>>) {
-        when(resource.status){
-            Status.SUCCESS -> {
-                resource.data?.let { list ->
-                    binding.noContent = list.isEmpty()
-                    playerAdapter.updateList(list)
-                }
-            }
-        }
-    }
 
     private fun initAdapter() {
         playerAdapter = PlayerAdapter(
@@ -59,7 +48,6 @@ class MainActivity : AppCompatActivity() {
     private fun bindData() {
         binding.lifecycleOwner = this
         binding.mainViewModel = mainViewModel
-        binding.noContent = true
         binding.playerAdapter = playerAdapter
     }
 

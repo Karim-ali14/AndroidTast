@@ -11,6 +11,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.examl.androidtesk.R
+import com.examl.androidtesk.common.utils.Resource
+import com.examl.androidtesk.common.utils.Status
+import com.examl.androidtesk.common.utils.Status.SUCCESS
+import com.examl.androidtesk.data.model.PlayerModel
+import com.examl.androidtesk.ui.adapter.PlayerAdapter
 
 /////////////////////////////////////////////////////////////////////////
 // Swipe Refresh Binding Adapter.
@@ -69,6 +74,13 @@ fun <T : Any> RecyclerView.setup(customAdapter: RecyclerView.Adapter<*>, isLinea
     val orientation = if(isHorizontal) RecyclerView.HORIZONTAL else RecyclerView.VERTICAL
     adapter = customAdapter
     layoutManager = if(isLinear) LinearLayoutManager(context,orientation,false) else GridLayoutManager(context,cols?:2)
+}
+
+@BindingAdapter("state")
+fun <T> RecyclerView.withState(state : Resource<T>?){
+    if(state?.status == SUCCESS) {
+        (adapter as PlayerAdapter).updateList(state.data as ArrayList<PlayerModel>)
+    }
 }
 
 

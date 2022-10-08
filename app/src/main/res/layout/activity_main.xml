@@ -12,10 +12,6 @@
             type="com.examl.androidtesk.ui.viewmodel.MainViewModel" />
 
         <variable
-            name="noContent"
-            type="Boolean" />
-
-        <variable
             name="playerAdapter"
             type="com.examl.androidtesk.ui.adapter.PlayerAdapter" />
 
@@ -43,7 +39,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:visibility="@{!noContent ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{mainViewModel.hasData ? View.VISIBLE : View.GONE}"
+                    bind:state="@{mainViewModel.contentList}"
                     bind:recyclerAdapter="@{playerAdapter}"
                     bind:isLinear="@{true}"
                     />
