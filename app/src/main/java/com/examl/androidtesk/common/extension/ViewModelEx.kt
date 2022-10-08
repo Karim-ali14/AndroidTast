@@ -1,5 +1,6 @@
 package com.examl.androidtesk.common.extension
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -12,6 +13,7 @@ fun <T> ViewModel.performNetworkOp(isNetworkConnected:Boolean,
                                      doOnMainThread : suspend (T)-> Unit,
                                      onError : (Exception?) -> Unit){
     viewModelScope.launch(Dispatchers.IO) {
+        Log.d("isNetworkConnected",isNetworkConnected.toString())
         try {
             if (isNetworkConnected) {
                 val data = networkCall()

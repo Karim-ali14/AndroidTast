@@ -1,5 +1,6 @@
 package com.examl.androidtesk.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,12 +35,15 @@ class MainViewModel @Inject constructor(
 
     fun fetchTennisPlayers(){
         _isLoading.postValue(true)
+
         performNetworkOp(
             isNetworkConnected = networkHelper.isNetworkConnected(),
-           networkCall =  {
+            networkCall =  {
+                Log.d("networkCall","networkCall")
                 mainRepository.fetchTennisPlayers()
             },
             doOnMainThread = {
+                Log.d("networkCall","networkCall ${it.status}")
                 _isLoading.postValue(false)
                 if (it.status){
                     _contentList.postValue(Resource.success(it.data))

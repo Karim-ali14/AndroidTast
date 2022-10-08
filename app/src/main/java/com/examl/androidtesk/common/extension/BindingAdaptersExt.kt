@@ -16,6 +16,11 @@ import com.examl.androidtesk.R
 // Swipe Refresh Binding Adapter.
 /////////////////////////////////////////////////////////////////////////
 
+@BindingAdapter(value = ["isRefreshing"])
+fun SwipeRefreshLayout.isRefreshing(newValue: Boolean) {
+    this.isRefreshing = newValue
+}
+
 @BindingAdapter(value = ["onRefresh"])
 fun SwipeRefreshLayout.onRefresh(action: () -> Unit) {
     this.setOnRefreshListener {
