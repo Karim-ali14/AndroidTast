@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidTesk/app/src/main/res/layout/activity_main.xml" value="0.24010416666666667" />
+        <entry key="..\:/AndroidTesk/app/src/main/res/layout/empty_date_layout.xml" value="0.13020833333333334" />
+        <entry key="..\:/AndroidTesk/app/src/main/res/layout/error_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidTesk/app/src/main/res/layout/layout_error.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidTesk/app/src/main/res/layout/layout_no_content.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidTesk/app/src/main/res/layout/player_item_layout.xml" value="0.2" />

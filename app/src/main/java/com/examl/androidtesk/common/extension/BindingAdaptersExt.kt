@@ -1,5 +1,6 @@
 package com.examl.androidtesk.common.extension
 
+import android.view.View
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
@@ -83,4 +84,7 @@ fun <T> RecyclerView.withState(state : Resource<T>?){
     }
 }
 
-
+@BindingAdapter("visible")
+fun View.isVisible(visible:Boolean){
+    visibility = if(visible) View.VISIBLE else View.GONE
+}

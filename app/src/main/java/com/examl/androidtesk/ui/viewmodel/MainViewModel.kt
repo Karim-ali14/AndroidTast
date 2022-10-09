@@ -15,6 +15,7 @@ import com.shawky.zimozitennisapptask.data.services.PrefrencesManager.AppPrefere
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,7 +26,7 @@ class MainViewModel @Inject constructor(
 ): ViewModel() {
 
     private var _isLoading = MutableStateFlow<Boolean>(true)
-    val isLoading: MutableStateFlow<Boolean> = _isLoading
+    val isLoading: StateFlow<Boolean> = _isLoading
 
     private var _hasData = MutableStateFlow<Boolean>(true)
     val hasData: MutableStateFlow<Boolean> get() = _hasData
